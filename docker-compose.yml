@@ -1,0 +1,30 @@
+version: "2.2"
+services:
+
+  fibo-app1:
+    image: fibo-app
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks:
+      - fibo-network
+    depends_on:
+      - fibomysql1
+      - fiboredis1
+
+  fibomysql1:
+    image: mysql:8.0.20
+    networks:
+      - fibo-network
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=fibo_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=""
+
+  fiboredis1:
+    image: redis
+    networks:
+      - fibo-network
+
+networks:
+  fibo-network:
